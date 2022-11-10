@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../static/bootstrap.min.css" />
+	<link rel="stylesheet" href="../static/style.css" />
+	<title>Document</title>
+</head>
+<body>
+	<div class="container h-75">
+		<div style="width:100%; margin-top: 3em;">
+			<div class="alert alert-success">message</div>
+				<form action="/books/search" method="GET">
+		  			<div class="form-group">
+		    			<div style="width: 100%">
+		    				<div style="width: 90%; display: inline-block;">
+		    					<input type="search" name="keyword" autofocus class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="" placeholder="Search for books...">
+		    				</div>
+							<button type="submit" style="margin-left: 5px;" class="btn btn-primary">Search</button>
+		    			</div>
+		  			</div>
+				</form>
+			</div>
+			<div style="width:100%; margin-top: 3em;">
+				<h4>Search Found</h4>
+				<div class="card book">
+			  		<img src="../static/images/bg.jpg" class="card-img-top" alt="{{book[1]}}">
+			  		<div class="card-body">
+			    		<h5 class="card-title"><a href="/books/{{book['id']}}">{{book['name']}}</a></h5>
+			    			<span class="badge badge-warning" style="margin-bottom: 5px;">Assigned</span>
+			    			<p class="card-text bookdesc">{{book['desc']}}</p>
+						    <p class="card-text">
+						    	<span class="badge badge-{{ 'primary' if book['count'] > 0 else 'secondary' }}" style="margin-bottom: 5px;"></span>
+							</p>
+			    		<a href="/books/add/{{book['id']}}" class="btn btn-outline-warning {{ 'disabled' if str(book['id']) in user_books else '' }}"><i class="bi bi-journal-plus"></i> message</a>
+				  	</div>
+				</div>
+				<h4>No Books Found!</h4>
+				<p>Please contact the librarian</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+	

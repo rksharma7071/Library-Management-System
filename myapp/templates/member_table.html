@@ -1,0 +1,64 @@
+{% extends 'dashboard.html' %}
+
+
+
+{% block main %}
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+        <div class="container-fluid">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+                <h1 class="h3 mb-0 text-gray-800">Member Detail</h1>
+                <a href="{% url 'member_add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-download fa-sm text-white-50"></i>
+                    Add New Member
+                </a>
+            </div>          
+
+            <div class="row mt-2 rounded shadow mx-2 bg-white">
+                <div class="col">
+                    {% if members %} 
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Member ID</th>
+                                <th>Name</th>
+                                <th>Member Type</th>
+                                <th>Address</th>
+                                <th>Member Date</th>
+                                <th>Member Expiry Date</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m in members %}
+                                <tr>
+                                    <td>{{m.memb_id}}</td>
+                                    <td>{{m.name}}</td>
+                                    <td>{{m.memb_type}}</td>
+                                    <td>{{m.address}}</td>
+                                    <td>{{m.memb_date}}</td>
+                                    <td>{{m.expiry_date}}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-primary" href="{% url 'member_edit' m.id %}">
+                                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
+                                                <i class="fa fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <h1>Record Not Found</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock main %}
+    
