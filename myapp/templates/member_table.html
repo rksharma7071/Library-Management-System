@@ -1,5 +1,5 @@
 {% extends 'dashboard.html' %}
-
+{% load static %}
 
 
 {% block main %}
@@ -8,52 +8,99 @@
         <div class="container-fluid">
             <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
                 <h1 class="h3 mb-0 text-gray-800">Member Detail</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                      <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                      <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button> -->  
+                      <input type="text" name="searchdata" class="form-control" placeholder="Enter Member ID/ Name/ Address" required>
+                      <input type="submit" value="Search" class="btn btn-primary">
+                    </div>
+                  </form>
                 <a href="{% url 'member_add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-download fa-sm text-white-50"></i>
+                    <i class="fas fa-plus-circle fa-sm text-white-100"></i>
                     Add New Member
                 </a>
             </div>          
 
             <div class="row mt-2 rounded shadow mx-2 bg-white">
                 <div class="col">
-                    {% if members %} 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Member ID</th>
-                                <th>Name</th>
-                                <th>Member Type</th>
-                                <th>Address</th>
-                                <th>Member Date</th>
-                                <th>Member Expiry Date</th>
-                                <th>Action</th>
+                    {% if memberSearch %}
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Member ID</th>
+                                        <th>Name</th>
+                                        <th>Member Type</th>
+                                        <th>Address</th>
+                                        <th>Member Date</th>
+                                        <th>Member Expiry Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for m in memberSearch %}
+                                        <tr>
+                                            <td>{{m.memb_id}}</td>
+                                            <td>{{m.name}}</td>
+                                            <td>{{m.memb_type}}</td>
+                                            <td>{{m.address}}</td>
+                                            <td>{{m.memb_date}}</td>
+                                            <td>{{m.expiry_date}}</td>
+                                            <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary" href="{% url 'member_edit' m.id %}">
+                                                    <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
+                                                    <i class="fa fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for m in members %}
-                                <tr>
-                                    <td>{{m.memb_id}}</td>
-                                    <td>{{m.name}}</td>
-                                    <td>{{m.memb_type}}</td>
-                                    <td>{{m.address}}</td>
-                                    <td>{{m.memb_date}}</td>
-                                    <td>{{m.expiry_date}}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-primary" href="{% url 'member_edit' m.id %}">
-                                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
-                                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
-                                                <i class="fa fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                     {% else %}
-                        <h1>Record Not Found</h1>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Member ID</th>
+                                    <th>Name</th>
+                                    <th>Member Type</th>
+                                    <th>Address</th>
+                                    <th>Member Date</th>
+                                    <th>Member Expiry Date</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in members %}
+                                    <tr>
+                                        <td>{{m.memb_id}}</td>
+                                        <td>{{m.name}}</td>
+                                        <td>{{m.memb_type}}</td>
+                                        <td>{{m.address}}</td>
+                                        <td>{{m.memb_date}}</td>
+                                        <td>{{m.expiry_date}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary" href="{% url 'member_edit' m.id %}">
+                                                    <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
+                                                    <i class="fa fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                     {% endif %}
                 </div>
             </div>

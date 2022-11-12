@@ -1,63 +1,151 @@
 {% extends 'dashboard.html' %}
-
+{% load static %}
 
 
 {% block main %}
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-        <div class="container-fluid">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
-                <h1 class="h3 mb-0 text-gray-800">Book Detail</h1>
-                <a href="{% url 'book_add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus-circle fa-sm text-white-100"></i>
-                    Add New Book
-                </a>
-            </div>          
-
-              <div class="row mt-2 rounded shadow mx-2 bg-white">
-                <div class="col">
-                  {% if books %} 
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Book ID</th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Price</th>
-                        <th>Available</th>
-                        <th>Publisher</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for book in books %}
-                        <tr>
-                          <td>{{book.book_id}}</a></td>
-                          <td>{{book.title}}</td>
-                          <td>{{book.author}}</td>
-                          <td>{{book.price}}</td>
-                          <td>{{book.available}}</td>
-                          <td>{{book.publisher}}</td>
-                          <td>
-                            <div class="btn-group">
-                                <a class="btn btn-primary" href="{% url 'book_edit' book.id %}">
-                                    <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
-                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' book.id %}">
-                                    <i class="fa fa-trash-alt"></i>
-                                </a>
-                            </div>
-                          </td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                    </table>
-                    {% else %}
-                    <h1>Record Not Found</h1>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
+      <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+          <h1 class="h3 mb-0 text-gray-800">Book Detail</h1>
+                
+          <form method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button> -->  
+              <input type="text" name="searchdata" class="form-control" placeholder="Enter Book ID/Title/Author / Publisher" required>
+              <input type="submit" value="Search" class="btn btn-primary">
             </div>
+          </form>
+          <a href="{% url 'book_add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus-circle fa-sm text-white-100"></i>
+            Add New Book
+          </a>
+        </div>          
+
+        <div class="row mt-2 rounded shadow mx-2 bg-white">
+          <div class="col">
+            {% if bookSearch %}
+              <div class="card-body">
+                <table id="example1" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width:8%;">Book ID</th>
+                      <th style="width:25%;">Title</th>
+                      <th style="width:25%;">Author</th>
+                      <th style="width:3%;" >Price</th>
+                      <th style="width:8%;">Available</th>
+                      <th style="width:15%;">Publisher</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in bookSearch %}
+                      <tr>
+                        <td>{{i.book_id}}</td>
+                        <td>{{i.title}}</td>
+                        <td>{{i.author}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.available}}</td>
+                        <td>{{i.publisher}}</td>
+                        <td>
+                          <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'book_edit' i.id %}">
+                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' i.id %}">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %} 
+            <div class="card-body">
+              <table id="example1" class="table table-bordered ">
+                <thead>
+                  <tr>
+                    <th style="width:8%;">Book ID</th>
+                    <th style="width:25%;">Title</th>
+                    <th style="width:25%;">Author</th>
+                    <th style="width:3%;" >Price</th>
+                    <th style="width:8%;">Available</th>
+                    <th style="width:15%;">Publisher</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for i in books %}
+                    <tr>
+                      <td>{{i.book_id}}</td>
+                      <td>{{i.title}}</td>
+                      <td>{{i.author}}</td>
+                      <td>{{i.price}}</td>
+                      <td>{{i.available}}</td>
+                      <td>{{i.publisher}}</td>
+                      <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'book_edit' i.id %}">
+                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' i.id %}">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+
+
+
+              {% comment %} <table class="table">
+                <thead>
+                  <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Available</th>
+                    <th>Publisher</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for book in books %}
+                    <tr>
+                      <td>{{book.book_id}}</a></td>
+                      <td>{{book.title}}</td>
+                      <td>{{book.author}}</td>
+                      <td>{{book.price}}</td>
+                      <td>{{book.available}}</td>
+                      <td>{{book.publisher}}</td>
+                      <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'book_edit' book.id %}">
+                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' book.id %}">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table> {% endcomment %}
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
             
-            {% endblock main %}
+{% endblock main %}
     
+
+            

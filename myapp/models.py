@@ -7,18 +7,20 @@ class Publisher(models.Model):
     address = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"{self.pub_id} - {self.name}"
+        return self.name
+
 
 class Book(models.Model):
-    book_id = models.CharField(max_length=20, null=True)
-    title = models.CharField(max_length=50, null=True)
-    author = models.CharField(max_length=50, null=True)
-    price = models.IntegerField(max_length=10, null=True)
-    available = models.BooleanField(null=True)
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, null=True)
+    book_id = models.CharField(max_length=100, null=True)
+    title = models.CharField(max_length=100, null=True)
+    author = models.CharField(max_length=100, null=True)
+    price = models.CharField(max_length=10, null=True)
+    available = models.CharField(max_length=20, null=True)
+    publisher = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return f"{self.book_id} - {self.title}"
+
 
 class Member(models.Model):
     memb_id = models.CharField(max_length=20, null=True)
@@ -41,3 +43,5 @@ class Brrowe_by(models.Model):
 
     def __str__(self):
         return f"{self.member} - {self.book}"
+
+

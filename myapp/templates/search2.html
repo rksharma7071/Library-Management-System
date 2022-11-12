@@ -1,0 +1,122 @@
+{% extends 'dashboard.html' %}
+
+
+
+{% block main %}
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+        <div class="container-fluid">
+            {% comment %} <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+                <h1 class="h3 mb-0 text-gray-800">Search</h1>
+                
+            </div> {% endcomment %}
+            <div class="row mt-3">
+              <!-- left column -->
+              <div class="col-md-12">
+                  <!-- general form elements -->
+                  <div class="card card-primary">
+                      <div class="card-header">
+                          <h3 class="card-title">Search</h3>
+                      </div>
+  
+                      <!-- form start -->
+                      <form method="post">
+                          {% csrf_token %}
+                          <div class="card-body">
+                              <div class="form-group">
+                                  <label>Search Report by Name/Mobile No/Location</label>
+                                  <input type="text" name="searchdata" class="form-control"
+                                         placeholder="Enter Name/Mobile No./Location" required>
+                              </div>
+                          </div>
+                          <div class="card-footer">
+                              <button type="submit" class="btn btn-primary">Search</button>
+                          </div>
+                      </form>
+  
+                      {% if member %}
+                      <div class="card-body">
+                          <h4 align="center">Result against "<span style="color: red">{{sd}}</span>" keyword </h4>
+                          <hr/>
+                          <table id="example1" class="table table-bordered table-striped">
+                              <thead>
+                              <tr>
+                                  <th>#</th>
+                                  <th>Name</th>
+                                  <th>Mobile Number</th>
+                                  <th>Location</th>
+                                  <th>Reporting Time</th>
+                                  <th>Action</th>
+                              </tr>
+                              </thead>
+  
+                              <tbody>
+                              {% for i in member %}
+                              <tr>
+                                  <td>{{forloop.counter}}</td>
+                                  <td>{{i.memb_id}}</td>
+                                  <td>{{i.name}}</td>
+                                  <td>{{i.memb_type}}</td>
+                                  <td>{{i.address}}</td>
+                                  <td>{{i.memb_date}}</td>
+                                  <td>{{i.expiry_date}}</td>
+                                  <td>
+                                    {% comment %} <a class="btn btn-primary" href="{% url 'viewRequestDetails' i.id %}"> {% endcomment %}
+                                    <i class="fa fa-eye"></i></a></td>
+                              </tr>
+                              {% endfor %}
+                              </tbody>
+                          </table>
+                      </div>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>  
+
+              {% comment %} <div class="row mt-2 rounded shadow mx-2 bg-white">
+                <div class="col">
+                  {% if books %} 
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Book ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Price</th>
+                        <th>Available</th>
+                        <th>Publisher</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for book in books %}
+                        <tr>
+                          <td>{{book.book_id}}</a></td>
+                          <td>{{book.title}}</td>
+                          <td>{{book.author}}</td>
+                          <td>{{book.price}}</td>
+                          <td>{{book.available}}</td>
+                          <td>{{book.publisher}}</td>
+                          <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{% url 'book_edit' book.id %}">
+                                    <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' book.id %}">
+                                    <i class="fa fa-trash-alt"></i>
+                                </a>
+                            </div>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                    </table>
+                    {% else %}
+                    <h1>Record Not Found</h1>
+                    {% endif %}
+                  </div>
+                </div>
+              </div> {% endcomment %}          
+            </div>
+            
+            {% endblock main %}
+    

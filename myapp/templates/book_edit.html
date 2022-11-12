@@ -44,7 +44,13 @@
                     </div>
                     <div class="my-3">
                       <label for="publisher" class="form-label">Publisher</label>
-                      <input type="text" class="form-control" id="publisher" name="publisher" value="{{book.publisher}}">
+                      {% comment %} <input type="text" class="form-control" id="publisher" name="publisher" value="{{book.publisher}}"> {% endcomment %}
+                      <select class="form-select form-control" name="publisher">
+                        <option selected>Select Publisher</option>
+                        {% for p in publisher %}
+                          <option value="{{p}}">{{p}}</option>
+                        {% endfor %}
+                      </select>
                     </div>
                     <div class=" text-center">
                       <input type="submit" value="Add" class="col-4 btn btn-primary"> 

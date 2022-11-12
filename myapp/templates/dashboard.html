@@ -1,28 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-<head>
 
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <title>Library Management System</title>
-
-  <!-- Custom fonts for this template-->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
   <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
   <div id="wrapper">
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-address-card"></i>
@@ -33,46 +25,67 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Dashboard -->
+      <!-- Dashboard -->
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'dashboard' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Dashboard</span>
+        </a>
       </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Companies -->
+      <!-- Companies -->
       <li class="nav-item">
         <a class="nav-link" href="#">
           <i class="fas fa-fw fa-chart-area"></i>
-          <span>Companies</span></a>
+          <span>Companies</span>
+        </a>
       </li>
 
-      <!-- Nav Item - Contact -->
+      <!-- Contact -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'member_table' %}">
           <i class="fas fa-fw fa-user"></i>
-          <span>All Member</span></a>
+          <span>All Member</span>
+        </a>
       </li>
+      <!-- All Books -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'book_table' %}">
           <i class="fas fa-fw fa-book"></i>
-          <span>All Book</span></a>
+          <span>All Book</span>
+        </a>
       </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Profile -->
+      <!-- Profile -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'profile' %}">
           <i class="fas fa-fw fa-user"></i>
-          <span>Profile</span></a>
+          <span>Profile</span>
+        </a>
+      </li>
+      
+      <!-- Nav Item - Profile -->
+      {% comment %} <li class="nav-item">
+        <a class="nav-link" href="{% url 'search' %}">
+          <i class="fas fa-fw fa-search"></i>
+          <span>Search</span></a>
+      </li> {% endcomment %}
+
+      <!-- Profile -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'search2' %}">
+          <i class="fas fa-fw fa-search"></i>
+          <span>Search</span>
+        </a>
       </li>
 
-      <!-- Nav Item - Logout -->
+      <!-- Logout -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'user_logout' %}">
           <i class="fas fa-fw fa-sign-out-alt"></i>
@@ -83,25 +96,21 @@
       <hr class="sidebar-divider d-none d-md-block">
 
     </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
     
     {% block main %}
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <!-- Begin Page Content -->
         <div class="container-fluid">
-
-          <!-- Page Heading -->
+          <!-- Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+              <i class="fas fa-download fa-sm text-white-50"></i> 
+              Generate Report
+            </a>
           </div>          
 
-          <!-- Main Content Here -->
           <div class="row">
-            <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
@@ -118,7 +127,6 @@
               </div>
             </div>
 
-            <!-- Pending Requests Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
@@ -140,11 +148,7 @@
     </div>
     {% endblock main %}
       
-
-
-
-  </div>
-  
+  </div>  
 </body>
 
 </html>
