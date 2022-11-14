@@ -19,7 +19,7 @@ class Book(models.Model):
     publisher = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return f"{self.book_id} - {self.title}"
+        return self.title
 
 
 class Member(models.Model):
@@ -31,17 +31,17 @@ class Member(models.Model):
     expiry_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.memb_id} - {self.name}"
+        return self.memb_id
 
 
 class Brrowe_by(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    book = models.OneToOneField(Book, on_delete=models.CASCADE, null=True)
     due_date = models.DateTimeField(auto_now_add=True)
     return_date = models.DateTimeField(auto_now_add=True)
     issue_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.member} - {self.book}"
+        return f"{self.member} + {self.book}"
 
 

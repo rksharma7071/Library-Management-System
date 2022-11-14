@@ -90,24 +90,27 @@
             <table id="example1" class="table table-bordered">
               <thead>
                 <tr>
+                  <th style="width: 15%">Book ID</th>
                   <th style="width: 15%">Member</th>
                   <th style="width: 15%">Book</th>
-                  <th style="width: 15%">Issue Date</th>
                   <th style="width: 15%">Due Date</th>
                   <th style="width: 15%">Return Date</th>
+                  <th style="width: 15%">Issue Date</th>
                 </tr>
               </thead>
 
               <tbody>
                 {% for i in brrowBy %} 
-                
+                {{m.memb_id}}
+                {{i.member}}
                   {% comment %} {% if m.memb_id is i.member %} {% endcomment %}
                     <tr>
+                      <td>{{i.book_id}}</td>
                       <td>{{i.member}}</td>
                       <td>{{i.book}}</td>
-                      <td>{{i.issue_date}}</td>
                       <td>{{i.due_date}}</td>
                       <td>{{i.return_date}}</td>
+                      <td>{{i.issue_date}}</td>
                     </tr>
                   {% comment %} {% endif %} {% endcomment %}
                 {% endfor %}

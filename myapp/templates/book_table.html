@@ -53,9 +53,11 @@
                           <div class="btn-group">
                             <a class="btn btn-primary" href="{% url 'book_edit' i.id %}">
                                 <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            {% if perms.myapp.delete_book %}
                             <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' i.id %}">
                                 <i class="fa fa-trash-alt"></i>
                             </a>
+                            {% endif %}
                           </div>
                         </td>
                       </tr>
@@ -91,9 +93,11 @@
                         <div class="btn-group">
                             <a class="btn btn-primary" href="{% url 'book_edit' i.id %}">
                                 <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
-                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' i.id %}">
+                            {% if perms.myapp.delete_book %}
+                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' i.id %}">
                                 <i class="fa fa-trash-alt"></i>
                             </a>
+                            {% endif %}
                         </div>
                       </td>
                     </tr>

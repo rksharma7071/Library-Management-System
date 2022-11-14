@@ -3,19 +3,9 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-
-
-def boot(request):
-    if not request.user.is_authenticated:
-        return redirect(user_login)
-    if request.method == "POST":
-        value = request.POST['gender']
-        print(value)
-    return render(request, 'boot.html')
 
 
 def home(request):
@@ -175,8 +165,33 @@ def profile(request):
 def issueBook(request):
     if not request.user.is_authenticated:
         return redirect('user_login')
-    book = Book.objects.filter(Status='Issue')
-    return render(request, 'admin/assignRequest.html', locals())
+    sd = None
+    if request.method == 'POST':
+        sd = request.POST['searchdata']
+        try:
+            memberSearch = Member.objects.filter(Q(memb_id=sd))
+        except:
+            memberSearch = ""
+    books = Book.objects.all()
+    brrowBy = Brrowe_by.objects.all()
+    return render(request, 'issueBook.html', locals())
+
+
+def issue(request):
+    if not request.user.is_authenticated:
+        return redirect('user_login')
+    members = Member.objects.all()
+    sd = None
+    if request.method == 'POST':
+        sd = request.POST['searchdata']
+        try:
+            memberSearch = Member.objects.filter(Q(memb_id=sd))
+            brrowBy = Brrowe_by.objects.filter(member=sd)
+        except:
+            memberSearch = ""
+    books = Book.objects.all()
+    return render(request, 'issue.html', locals())
+
 
 
 def user_login(request):
@@ -251,5 +266,3 @@ def user_logout(request):
     return redirect(home)
     # return render(request, 'login.html')
 
-def error404(request, exception):
-    return render(request, '404.html')

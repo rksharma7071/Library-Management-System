@@ -52,9 +52,11 @@
                                             <div class="btn-group">
                                                 <a class="btn btn-primary" href="{% url 'member_edit' m.id %}">
                                                     <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
-                                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
-                                                    <i class="fa fa-trash-alt"></i>
-                                                </a>
+                                                {% if perms.myapp.delete_member %}
+                                                    <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
+                                                        <i class="fa fa-trash-alt"></i>
+                                                    </a>
+                                                {% endif %}
                                             </div>
                                             </td>
                                         </tr>
@@ -91,8 +93,10 @@
                                             <div class="btn-group">
                                                 <a class="btn btn-primary" href="{% url 'member_edit' m.id %}">
                                                     <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
-                                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
-                                                    <i class="fa fa-trash-alt"></i>
+                                                    {% if perms.myapp.delete_member %}
+                                                    <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'member_delete' m.id %}">
+                                                        <i class="fa fa-trash-alt"></i>
+                                                    {% endif %}
                                                 </a>
                                             </div>
                                         </td>

@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.urls import path
 from myapp.views import *
 
-
+admin.site.site_header = "Library Mamagement System"
+admin.site.site_title = "Library Mamagement Admin Protal"
+admin.site.index_title = "Welcome to Library Mamagement System"
 urlpatterns = [
     path('', home, name='home'),
-    path('boot/', boot, name='boot'),
     path('user_login/', user_login, name='user_login'),
     path('dashboard/', dashboard, name='dashboard'),
     path('member_add/', member_add, name='member_add'),
@@ -17,6 +18,8 @@ urlpatterns = [
     path('book_delete/<int:pid>', book_delete, name='book_delete'),
     path('book_table/', book_table, name='book_table'),
     path('profile/', profile, name='profile'),
+    path('issueBook/', issueBook, name='issueBook'),
+    path('issue/', issue, name='issue'),
     path('changePassword/', changePassword, name='changePassword'),
     path('search/', search, name='search'),
     path('search2/', search2, name='search2'),
