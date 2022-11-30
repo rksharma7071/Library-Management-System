@@ -1,0 +1,157 @@
+{% extends 'dashboard.html' %} {% load static %} {% block main %}
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <div class="container-fluid">
+      <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4" >
+        <h1 class="h3 mb-0 text-gray-800">View Detail</h1>
+        <form method="post">
+          {% csrf_token %}
+          {% comment %} <div class="input-group mb-3">
+            <input type="text" name="searchdata" class="form-control" placeholder="Enter Member ID" required />
+            <input type="submit" value="Search" class="btn btn-primary" />
+          </div> {% endcomment %}
+        </form>
+        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="fas fa-plus-circle fa-sm text-white-100"></i>
+          Issue Book
+        </a>
+      </div>
+      <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="" method="post">
+      <div class="modal-body">
+          {% csrf_token %}
+          <label for="">Member</label>
+              {{form.member}}<br>
+              <label for="">Book</label>
+              {{form.book}}
+              {{form.book.errors}}
+              {{form.member.errors}}
+          <input type="submit" value="Submit">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+      <div class="row mt-2 rounded shadow mx-2 bg-white">
+        <div class="col">
+          {% if member %}
+          <div class="card-body">
+            <table id="example1" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="width: 25%">Member ID</th>
+                  <td style="width: 25%">{{member.memb_id}}</td>
+                  <th style="width: 25%">Name</th>
+                  <td style="width: 25%">{{member.name}}</td>
+                </tr>
+                <tr>
+                  <th>Member Type</th>
+                  <td>{{member.memb_type}}</td>
+                  <th>Address</th>
+                  <td>{{member.address}}</td>
+                </tr>
+                <tr>
+                  <th>Member Date</th>
+                  <td>{{member.memb_date}}</td>
+                  <th>Member Expiry Date</th>
+                  <td>{{member.expiry_date}}</td>
+                </tr>
+              </thead>
+              
+            </table>
+            <br />
+            {% endif %}
+            {% comment %} {% if issue %}
+            <table id="example1" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="width: 15%%">Book ID</th>
+                  <th style="width: 15%">Title</th>
+                  <th style="width: 15%">Author</th>
+                  <th style="width: 15%">Price</th>
+                  <th style="width: 15%">Available</th>
+                  <th style="width: 15%">Publisher</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for b in issue %} 
+                  <tr>
+                    <td>{{b.book_id}}</td>
+                    <td>{{b.title}}</td>
+                    <td>{{b.author}}</td>
+                    <td>{{b.price}}</td>
+                    <td>{{b.available}}</td>
+                    <td>{{b.publisher}}</td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-primary" href="{% url 'book_edit' b.id %}" >
+                          <i class="fa fa-edit"></i>
+                        </a>&nbsp;&nbsp;&nbsp;
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' b.id %}" >
+                          <i class="fa fa-trash-alt"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% endif %} {% endcomment %}
+            
+            
+            {% if issue %}
+            <table id="example1" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th colspan="5" class="text-center"><h4>Issue Book</h4></th>
+                </tr>
+                <tr>
+                  <th style="width: 15%">S.No.</th>
+                  <th style="width: 15%">Book</th>
+                  <th style="width: 15%">Issue Date</th>
+                  <th style="width: 15%">Due Date</th>
+                  <th style="width: 15%">Return Date</th>
+                  <th style="width: 15%">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for i in issue %}                 
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.book}}</td>
+                    <td>{{i.issue_date}}</td>
+                    <td>{{i.due_date}}</td>
+                    <td>{{i.return_date}}</td>
+                    <td>
+                      <a class="btn btn-primary" href="" >
+                      Return
+                    </a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+              <h2>No Book Issue</h2>
+            {% endif %}
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% endblock main %}
+</div>

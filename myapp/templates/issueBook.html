@@ -1,127 +1,107 @@
-{% extends 'dashboard.html' %} {% load static %} {% block main %}
+{% extends 'dashboard.html' %} {% load static %} 
+
+{% block main %}
+<style>
+  .form-select, #id_member, #id_book {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    -moz-padding-start: calc(0.75rem - 3px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .form-select, #id_member, #id_book {
+      transition: none;
+    }
+  }
+  .form-select:focus, #id_member:focus, #id_book:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  .form-select[multiple], .form-select[size]:not([size="1"]) {
+    padding-right: 0.75rem;
+    background-image: none;
+  }
+  .form-select:disabled, #id_member:disabled, #id_book:disabled {
+    background-color: #e9ecef;
+  }
+  .form-select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #212529;
+  }
+  
+  .form-select-sm, {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+  }
+  
+  .form-select-lg {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+  }
+</style>
 <div id="content-wrapper" class="d-flex flex-column">
   <div id="content">
     <div class="container-fluid">
       <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4" >
-        <h1 class="h3 mb-0 text-gray-800">Issue/ Return Book</h1>
-        <form method="post">
-          {% csrf_token %}
-          <div class="input-group mb-3">
-            <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-                      <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button> -->
-            <input type="text" name="searchdata" class="form-control" placeholder="Enter Member ID" required />
-            <input type="submit" value="Search" class="btn btn-primary" />
-          </div>
-        </form>
-        <a href="{% url 'member_add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" >
-          <i class="fas fa-plus-circle fa-sm text-white-100"></i>
-          Add New Member
-        </a>
+        <h1 class="h3 mb-0 text-gray-800">Issue/ Return Book</h1>        
       </div>
 
       <div class="row mt-2 rounded shadow mx-2 bg-white">
-        <div class="col">
-          {% if memberSearch %}
-            {% for m in memberSearch %}
+        <div class="col-6 m-auto p-4">
           <div class="card-body">
-            <table id="example1" class="table table-bordered">
-              <thead>
-                <tr>
-                  <th style="width: 25%">Member ID</th>
-                  <td style="width: 25%">{{m.memb_id}}</td>
-                  <th style="width: 25%">Name</th>
-                  <td style="width: 25%">{{m.name}}</td>
-                </tr>
-                <tr>
-                  <th>Member Type</th>
-                  <td>{{m.memb_type}}</td>
-                  <th>Address</th>
-                  <td>{{m.address}}</td>
-                </tr>
-                <tr>
-                  <th>Member Date</th>
-                  <td>{{m.memb_date}}</td>
-                  <th>Member Expiry Date</th>
-                  <td>{{m.expiry_date}}</td>
-                </tr>
-              </thead>
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="my-3">
+                <label for="memb_id" class="form-label">Member</label>
+                {{form.member}}
+                {{form.member.errors}}
               
-            </table>
-            <br />
-
-            <table id="example1" class="table table-bordered">
-              <thead>
-                <tr>
-                  <th style="width: 15%%">Book ID</th>
-                  <th style="width: 15%">Title</th>
-                  <th style="width: 15%">Author</th>
-                  <th style="width: 15%">Price</th>
-                  <th style="width: 15%">Available</th>
-                  <th style="width: 15%">Publisher</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {% for b in books %} {% comment %} {% if book_id is brrowBy %}
-                {% endcomment %}
-                <tr>
-                  <td>{{b.book_id}}</td>
-                  <td>{{b.title}}</td>
-                  <td>{{b.author}}</td>
-                  <td>{{b.price}}</td>
-                  <td>{{b.available}}</td>
-                  <td>{{b.publisher}}</td>
-                  <td>
-                    <div class="btn-group">
-                      <a class="btn btn-primary" href="{% url 'book_edit' b.id %}" >
-                        <i class="fa fa-edit"></i>
-                      </a>&nbsp;&nbsp;&nbsp;
-                      <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' b.id %}" >
-                        <i class="fa fa-trash-alt"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                {% comment %} {% endif %} {% endcomment %} {% endfor %}
-              </tbody>
-            </table>
-            
-            <table id="example1" class="table table-bordered">
-              <thead>
-                <tr>
-                  <th style="width: 15%">Member</th>
-                  <th style="width: 15%">Book</th>
-                  <th style="width: 15%">Issue Date</th>
-                  <th style="width: 15%">Due Date</th>
-                  <th style="width: 15%">Return Date</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {% for i in brrowBy %} 
-                
-                  {% comment %} {% if m.memb_id is i.member %} {% endcomment %}
-                    <tr>
-                      <td>{{i.member}}</td>
-                      <td>{{i.book}}</td>
-                      <td>{{i.issue_date}}</td>
-                      <td>{{i.due_date}}</td>
-                      <td>{{i.return_date}}</td>
-                    </tr>
-                  {% comment %} {% endif %} {% endcomment %}
-                {% endfor %}
-              </tbody>
-            </table>
-
-            <br />
+                <label for="">Book</label>
+                {{form.book}}
+                {{form.book.errors}}
+              <input type="submit" value="Submit">
+            </form>
           </div>
-          {% endfor %}
-          {% endif %}
         </div>
       </div>
     </div>
   </div>
-
   {% endblock main %}
 </div>
+<script>
+
+  {% if error == "no" %}
+  <script>
+    alert('Logged In Successfully');
+    window.location=('{% url 'dashboard' %}');
+  </script>
+  {% endif %}
+  
+    {% if error == "yes" %}
+    <script>
+      alert('Invalid Credentials, Please try again');
+    </script>
+    {% endif %}
+  </script>

@@ -117,7 +117,6 @@ def book_table(request):
             bookSearch = Book.objects.filter(Q(book_id=sd) | Q(title__icontains=sd) | Q(author__icontains=sd) | Q(publisher__icontains=sd))
         except:
             bookSearch = ""
-    # return render(request, 'search.html', locals())
     return render(request, 'book_table.html', locals())
 
 def book_edit(request, pid):
@@ -165,32 +164,43 @@ def profile(request):
 def issueBook(request):
     if not request.user.is_authenticated:
         return redirect('user_login')
-    sd = None
-    if request.method == 'POST':
-        sd = request.POST['searchdata']
+
+    form = Brrowe_byForm(request.POST)
+
+    if request.method == "POST":
         try:
-            memberSearch = Member.objects.filter(Q(memb_id=sd))
+            if form.is_valid():
+                form.save()
+                error = "no"
+                form = Brrowe_byForm()
         except:
-            memberSearch = ""
+            form = Brrowe_byForm()
+            error = 'yes'
+
+
     books = Book.objects.all()
-    brrowBy = Brrowe_by.objects.all()
     return render(request, 'issueBook.html', locals())
 
 
-def issue(request):
+def viewRequestDetails(request, pid):
     if not request.user.is_authenticated:
         return redirect('user_login')
-    members = Member.objects.all()
-    sd = None
-    if request.method == 'POST':
-        sd = request.POST['searchdata']
+
+    form = Brrowe_byForm(request.POST)
+    if request.method == "POST":
         try:
-            memberSearch = Member.objects.filter(Q(memb_id=sd))
-            brrowBy = Brrowe_by.objects.filter(member=sd)
+            if form.is_valid():
+                form.save()
+                error = "no"
+                form = Brrowe_byForm()
         except:
-            memberSearch = ""
-    books = Book.objects.all()
-    return render(request, 'issue.html', locals())
+            form = Brrowe_byForm()
+            error = 'yes'
+
+    member = Member.objects.get(id=pid)
+    issue = Brrowe_by.objects.filter(member=member)
+    issue_count = issue.count()
+    return render(request, 'viewRequestDetails.html', locals())
 
 
 
@@ -266,3 +276,60 @@ def user_logout(request):
     return redirect(home)
     # return render(request, 'login.html')
 
+
+def publisher_add(request):
+    publisher = PublisherForm(request.POST)
+    if request.method == 'POST':
+        try:
+            if publisher.is_valid():
+                pub_id = request.POST['pub_id']
+                name = request.POST['name']
+                address = request.POST['address']
+                pub = Publisher(pub_id=pub_id, name=name, address=address)
+                pub.save()
+                error = "no"
+                publisher = PublisherForm()
+        except:
+            publisher = PublisherForm()
+            error = 'yes'
+    return render(request, 'publisher_add.html', locals())
+
+
+def publisher_edit(request, pid):
+    publisher = Publisher.objects.get(id=pid)
+    error = ""
+    if request.method == "POST":
+        pub_id = request.POST['pub_id']
+        name = request.POST['name']
+        address = request.POST['address']
+
+        publisher.pub_id = pub_id
+        publisher.name = name
+        publisher.address = address
+
+        try:
+            publisher.save()
+            error = "no"
+        except:
+            error = "yes"
+    return render(request, 'publisher_edit.html', locals())
+
+
+def publisher_table(request):
+    publishers = Publisher.objects.all()
+    sd = None
+    if request.method == 'POST':
+        sd = request.POST['searchdata']
+        try:
+            pubSearch = Publisher.objects.filter(Q(pub_id=sd) | Q(name__icontains=sd) | Q(address__icontains=sd))
+        except:
+            pubSearch = ""
+    return render(request, 'publisher_table.html', locals())
+
+
+def publisher_delete(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('user_login')
+    publisher = Publisher.objects.get(id=pid)
+    publisher.delete()
+    return redirect('publisher_table')

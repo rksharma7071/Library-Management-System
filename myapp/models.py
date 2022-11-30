@@ -37,9 +37,9 @@ class Member(models.Model):
 class Brrowe_by(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     book = models.OneToOneField(Book, on_delete=models.CASCADE, null=True)
-    due_date = models.DateTimeField(auto_now_add=True)
-    return_date = models.DateTimeField(auto_now_add=True)
-    issue_date = models.DateTimeField(auto_now_add=True)
+    due_date = models.DateTimeField(null=True)
+    return_date = models.DateTimeField(null=True)
+    issue_date = models.DateTimeField(null=True)
 
     def __str__(self):
         return f"{self.member} + {self.book}"

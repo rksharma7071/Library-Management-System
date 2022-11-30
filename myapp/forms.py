@@ -3,7 +3,6 @@ from .models import *
 
 
 class BookForm(forms.ModelForm):
-
   class Meta:
     model = Book
     fields = ['book_id', 'title', 'author', 'price', 'available', 'publisher']
@@ -16,3 +15,13 @@ class BookForm(forms.ModelForm):
         'available': forms.TextInput(attrs={'class': 'form-select form-control'}),
         'publisher': forms.TextInput(attrs={'class': 'form-select form-control'}),
     }
+
+class Brrowe_byForm(forms.ModelForm):
+  class Meta:
+    model = Brrowe_by
+    fields = ['member', 'book']
+
+class PublisherForm(forms.ModelForm):
+  class Meta:
+    model = Publisher
+    fields = ['pub_id','name', 'address']

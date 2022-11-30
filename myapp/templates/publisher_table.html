@@ -1,0 +1,143 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+
+{% block main %}
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+          <h1 class="h3 mb-0 text-gray-800">Publisher Detail</h1>
+                
+          <form method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button> -->  
+              <input type="text" name="searchdata" class="form-control" placeholder="Enter Publisher ID/Name/Address" required>
+              <input type="submit" value="Search" class="btn btn-primary">
+            </div>
+          </form>
+          <a href="{% url 'publisher_add' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus-circle fa-sm text-white-100"></i>
+            Add New Publisher
+          </a>
+        </div>          
+
+        <div class="row mt-2 rounded shadow mx-2 bg-white">
+          <div class="col">
+            {% if pubSearch %}
+              <div class="card-body">
+                <table id="example1" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width:33%;">Publisher ID</th>
+                      <th style="width:33%;">Name</th>
+                      <th style="width:33%;">Address</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in pubSearch %}
+                      <tr>
+                        <td>{{i.pub_id}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.address}}</td>
+                        <td>
+                          <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'publisher_edit' i.id %}">
+                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            {% if perms.myapp.delete_publisher %}
+                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'publisher_delete' i.id %}">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                            {% endif %}
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %} 
+            <div class="card-body">
+              <table id="example1" class="table table-bordered ">
+                <thead>
+                  <tr>
+                    <th style="width:33%;">Publisher ID</th>
+                    <th style="width:33%;">Name</th>
+                    <th style="width:33%;">Address</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for i in publishers %}
+                    <tr>
+                      <td>{{i.pub_id}}</td>
+                      <td>{{i.name}}</td>
+                      <td>{{i.address}}</td>
+                      <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'publisher_edit' i.id %}">
+                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            {% if perms.myapp.delete_publisher %}
+                                <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'publisher_delete' i.id %}">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+
+
+
+              {% comment %} <table class="table">
+                <thead>
+                  <tr>
+                    <th>Book ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Available</th>
+                    <th>Publisher</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for book in books %}
+                    <tr>
+                      <td>{{book.book_id}}</a></td>
+                      <td>{{book.title}}</td>
+                      <td>{{book.author}}</td>
+                      <td>{{book.price}}</td>
+                      <td>{{book.available}}</td>
+                      <td>{{book.publisher}}</td>
+                      <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{% url 'book_edit' book.id %}">
+                                <i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                            <a class="btn btn-danger" onclick="return confirm('Are you sure to Delete ?')" href="{% url 'book_delete' book.id %}">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table> {% endcomment %}
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+            
+{% endblock main %}
+    
+
+            
